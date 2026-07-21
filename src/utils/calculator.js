@@ -5,13 +5,23 @@ export const toRadians = (deg) => (deg * Math.PI) / 180;
 export const prepareExpression = (expression, angleMode) => {
   let exp = expression;
 
-  // Operators
-  exp = exp.replace(/×/g, "*");
-  exp = exp.replace(/÷/g, "/");
+ // Operators
+exp = exp.replace(/×/g, "*");
+exp = exp.replace(/÷/g, "/");
 
-  // Constants
-  exp = exp.replace(/π/g, Math.PI);
-  exp = exp.replace(/\be\b/g, Math.E);
+// Implicit multiplication
+exp = exp
+  .replace(/(\d)(π)/g, "$1*π")
+  .replace(/(π)(\d)/g, "π*$2")
+  .replace(/(\d)(e)/g, "$1*e")
+  .replace(/(e)(\d)/g, "e*$2")
+  .replace(/(\d)\(/g, "$1*(")
+  .replace(/\)(\d)/g, ")*$1")
+  .replace(/\)\(/g, ")*(");
+
+// Constants
+exp = exp.replace(/π/g, Math.PI);
+exp = exp.replace(/\be\b/g, Math.E);
 
   // Power (^)
   exp = exp.replace(/(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g, "Math.pow($1,$3)");

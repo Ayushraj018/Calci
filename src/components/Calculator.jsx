@@ -47,15 +47,30 @@ const Calculator = () => {
 
     // π
     if (value === "π") {
-      setDisplay((prev) => prev + "π");
-      return;
+  setDisplay((prev) => {
+    if (prev === "") return "π";
+
+    if (/[0-9)]$/.test(prev)) {
+      return prev + "×π";
     }
 
+    return prev + "π";
+  });
+  return;
+}
     // e
     if (value === "e") {
-      setDisplay((prev) => prev + "e");
-      return;
+  setDisplay((prev) => {
+    if (prev === "") return "e";
+
+    if (/[0-9)]$/.test(prev)) {
+      return prev + "×e";
     }
+
+    return prev + "e";
+  });
+  return;
+}
 
     // × and ÷ stay as symbols
     if (value === "×" || value === "÷") {
