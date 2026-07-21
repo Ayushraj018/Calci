@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Display from "./Display";
-import ButtonGrid from "./ButtonGrid";
+import ButtonGrid from "./Buttongrid";
 import { calculate } from "../utils/calculator";
 
 const Calculator = () => {
