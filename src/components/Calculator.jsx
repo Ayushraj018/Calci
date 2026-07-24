@@ -6,6 +6,7 @@ import { calculate } from "../utils/calculator";
 const Calculator = () => {
   const [display, setDisplay] = useState("");
   const [angleMode, setAngleMode] = useState("DEG");
+  const [history, setHistory] = useState([]);
 
   const scientificButtons = ["sin", "cos", "tan", "log", "ln", "√"];
 
@@ -34,8 +35,17 @@ const Calculator = () => {
         expression += ")";
       }
 
-      const result = calculate(expression, angleMode);
-      setDisplay(String(result));
+     const result = calculate(expression, angleMode);
+
+setHistory((prev) => [
+  ...prev,
+  {
+    expression,
+    result,
+  },
+]);
+
+setDisplay(String(result));
       return;
     }
 
@@ -120,6 +130,62 @@ const Calculator = () => {
       </div>
 
       <ButtonGrid onButtonClick={handleButtonClick} />
+
+{/* History */}
+<div className="mt-5 border-t border-slate-700 pt-4">
+
+  <div className="flex justify-between items-center mb-2">
+
+    <h3 className="text-white font-semibold">
+      History
+    </h3>
+
+    <button
+      onClick={() => setHistory([])}
+      className="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded"
+    >
+      Clear
+    </button>
+
+  </div>
+
+  <div className="max-h-40 overflow-y-auto">
+
+    {history.length === 0 ? (
+
+      <p className="text-gray-400 text-sm">
+        No calculations yet
+      </p>
+
+    ) : (
+
+      history
+        .slice()
+        .reverse()
+        .map((item, index) => (
+
+          <div
+            key={index}
+            className="border-b border-slate-700 py-2"
+          >
+
+            <div className="text-gray-300 text-sm">
+              {item.expression}
+            </div>
+
+            <div className="text-blue-400 text-sm">
+              = {item.result}
+            </div>
+
+          </div>
+
+        ))
+
+    )}
+
+  </div>
+
+</div>
 
     </div>
   );
